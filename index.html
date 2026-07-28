@@ -192,7 +192,8 @@
             </div>
         </div>
         <div>
-            <span id="saldoDisplay" style="color: var(--accent-blue); font-weight: bold;">Saldo: $0.00</span>
+            <!-- El saldo permanece oculto hasta que el usuario se registre o inicie sesión -->
+            <span id="saldoDisplay" style="color: var(--accent-blue); font-weight: bold; display: none;">Saldo: $0.00</span>
         </div>
     </header>
 
@@ -265,6 +266,8 @@
             document.getElementById('authSection').style.display = 'none';
             document.getElementById('systemSection').style.display = 'block';
             document.getElementById('paymentSection').style.display = 'block';
+            // Muestra el saldo únicamente al iniciar sesión / registrarse
+            document.getElementById('saldoDisplay').style.display = 'inline-block';
         }
 
         function actualizarEntorno() {
