@@ -10,51 +10,112 @@
             background-color: #0f172a;
             color: #ffffff;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             min-height: 100vh;
             text-align: center;
         }
         .container {
             max-width: 600px;
-            padding: 20px;
+            width: 100%;
+            background: #1e293b;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-top: 20px;
         }
         h1 {
             color: #38bdf8;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2rem;
+            margin-bottom: 5px;
         }
         p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #94a3b8;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .btn {
             background-color: #22c55e;
             color: white;
-            padding: 15px 30px;
-            font-size: 1.1rem;
+            padding: 12px 25px;
+            font-size: 1rem;
             font-weight: bold;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
+            margin: 10px 0;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         .btn:hover {
             background-color: #16a34a;
+        }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-top: 20px;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .cell {
+            background: #334155;
+            padding: 12px 0;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 4px;
+            color: #f8fafc;
+        }
+        .cell.header {
+            background: #0284c7;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Bingo Pro360ec</h1>
-        <p>La plataforma oficial de sorteos y diversión. ¡Prepárate para ganar con nosotros!</p>
-        <a href="https://wa.me/" class="btn">Contáctanos por WhatsApp</a>
+        <p>Sistema oficial de sorteos y cartones automáticos</p>
+        
+        <button class="btn" onclick="generarCarton()">Generar mi Cartón</button>
+
+        <div id="carton-container" style="display:none;">
+            <h3>Tu Cartón de la Suerte</h3>
+            <div class="card-grid" id="grid"></div>
+        </div>
+
+        <br><br>
+        <a href="https://wa.me/" class="btn" style="background-color: #25d366;">Contactar por WhatsApp</a>
     </div>
+
+    <script>
+        function generarCarton() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            // Letras B-I-N-G-O
+            const headers = ['B', 'I', 'N', 'G', 'O'];
+            headers.forEach(h => {
+                const cell = document.createElement('div');
+                cell.className = 'cell header';
+                cell.innerText = h;
+                grid.appendChild(cell);
+            });
+
+            // Generar números aleatorios de ejemplo para el cartón
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.innerText = Math.floor(Math.random() * 75) + 1;
+                grid.appendChild(cell);
+            }
+
+            document.getElementById('carton-container').style.display = 'block';
+        }
+    </script>
 </body>
 </html>
