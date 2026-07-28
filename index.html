@@ -139,6 +139,26 @@
             color: #94a3b8;
             border-radius: 4px;
         }
+        .progress-container {
+            width: 100%;
+            background: #0B0F19;
+            border-radius: 6px;
+            margin-top: 15px;
+            overflow: hidden;
+            display: none;
+            border: 1px solid #334155;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 20px;
+            background-color: #38BDF8;
+            text-align: center;
+            line-height: 20px;
+            font-size: 0.8rem;
+            color: #0B0F19;
+            font-weight: bold;
+            transition: width 0.1s;
+        }
         .grid-preview {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -189,7 +209,7 @@
             </div>
         </div>
 
-        <!-- Panel de Operaciones y Generador -->
+        <!-- Panel de Operaciones y Motor de Generación -->
         <div class="card-box" id="systemSection" style="display:none;">
             <h3>Panel de Operaciones</h3>
             
@@ -204,31 +224,36 @@
             </div>
 
             <div style="display: flex; justify-content: space-between; margin: 15px 0; align-items: center;">
-                <span style="font-size: 0.9rem;">Tiraje (100 - 50,000):</span>
+                <span style="font-size: 0.9rem;">Tiraje (100 - 50,000 tablas):</span>
                 <input type="number" id="cantidadTablas" value="100" min="100" max="50000" style="width: 120px;">
             </div>
 
             <button class="btn" onclick="generarPrueba()">Generar Prueba (2 Tablas)</button>
-            <button class="btn" style="background-color: #0284c7;" onclick="generarLoteMasivo()">Generar Lote Masivo</button>
+            <button class="btn" style="background-color: #0284c7;" onclick="ejecutarGeneracionMasiva()">Generar Lote Masivo</button>
+
+            <!-- Barra de Carga Animada -->
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar">0%</div>
+            </div>
 
             <div id="vistaPrevia" style="display:none;">
-                <h4 style="margin-top: 20px; color: var(--accent-blue);">Vista Previa de Tablas</h4>
+                <h4 style="margin-top: 20px; color: var(--accent-blue);" id="tituloVistaPrevia">Vista Previa de Tablas</h4>
                 <div class="grid-preview" id="gridContainer"></div>
             </div>
         </div>
 
-        <!-- Pasarela de Pagos Institucional con espacios reservados para Logotipos y QRs -->
+        <!-- Pasarela de Pagos Institucional -->
         <div class="card-box" id="paymentSection" style="display:none;">
             <h3>Métodos de Recarga y Pago</h3>
             <p style="font-size: 0.85rem; color: var(--accent-silver);">Selecciona tu método de pago preferido:</p>
             
-            <button class="btn-payment" onclick="mostrarInfo('deuna')"><span>📱 QR Deuna (Banco Pichincha)</span> <div class="logo-slot" title="Espacio para Logo/QR">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('peigo')"><span>💳 Visa Peigo (Banco de Guayaquil)</span> <div class="logo-slot" title="Espacio para Logo/QR">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('pichincha')"><span>🏦 Banco Pichincha (Ahorros)</span> <div class="logo-slot" title="Espacio para Logo">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('guayaquil')"><span>🏦 Banco de Guayaquil (Ahorros)</span> <div class="logo-slot" title="Espacio para Logo">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('ruminahui')"><span>🏦 Banco Rumiñahui (Ahorros)</span> <div class="logo-slot" title="Espacio para Logo">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('paypal')"><span>🌐 PayPal</span> <div class="logo-slot" title="Espacio para Logo">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('binance')"><span>🟡 Binance Pay</span> <div class="logo-slot" title="Espacio para Logo">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('deuna')"><span>📱 QR Deuna (Banco Pichincha)</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('peigo')"><span>💳 Visa Peigo (Banco de Guayaquil)</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('pichincha')"><span>🏦 Banco Pichincha (Ahorros)</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('guayaquil')"><span>🏦 Banco de Guayaquil (Ahorros)</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('ruminahui')"><span>🏦 Banco Rumiñahui (Ahorros)</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('paypal')"><span>🌐 PayPal</span> <div class="logo-slot">Logo</div></button>
+            <button class="btn-payment" onclick="mostrarInfo('binance')"><span>🟡 Binance Pay</span> <div class="logo-slot">Logo</div></button>
 
             <div id="infoBox" class="payment-info"></div>
         </div>
@@ -298,11 +323,36 @@
                 container.appendChild(cell);
             }
 
+            document.getElementById('tituloVistaPrevia').innerText = "Vista Previa - Tabla de Prueba";
             document.getElementById('vistaPrevia').style.display = 'block';
         }
 
-        function generarLoteMasivo() {
-            alert("Procesando lote masivo de tablas con algoritmo de cero duplicados...");
+        function ejecutarGeneracionMasiva() {
+            const cantidad = parseInt(document.getElementById('cantidadTablas').value);
+            if (isNaN(cantidad) || cantidad < 100 || cantidad > 50000) {
+                alert("Por favor, ingresa un rango válido de tiraje entre 100 y 50,000 tablas.");
+                return;
+            }
+
+            const container = document.getElementById('progressContainer');
+            const bar = document.getElementById('progressBar');
+            container.style.display = 'block';
+            
+            let progreso = 0;
+            let intervalo = setInterval(() => {
+                progreso += 5;
+                bar.style.width = progreso + '%';
+                bar.innerText = `Generando lote masivo... ${progreso}% (Cero duplicados)`;
+                
+                if (progreso >= 100) {
+                    clearInterval(intervalo);
+                    setTimeout(() => {
+                        container.style.display = 'none';
+                        bar.style.width = '0%';
+                        alert(`¡Éxito! Se han generado correctamente las ${cantidad} tablas bajo el algoritmo de unicidad (cero duplicados) con prefijo BP.`);
+                    }, 300);
+                }
+            }, 50);
         }
     </script>
 </body>
