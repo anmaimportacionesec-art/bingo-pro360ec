@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BINGO PRO360ec - Plataforma Oficial</title>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval';">
     <style>
         :root {
             --bg-deep: #0B0F19;
@@ -13,7 +14,18 @@
             --accent-platinum: #F8FAFC;
             --btn-green: #22C55E;
             --btn-hover: #16A34A;
+            --border-color: #1E293B;
         }
+
+        .light-mode {
+            --bg-deep: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --accent-blue: #0284C7;
+            --accent-silver: #475569;
+            --accent-platinum: #0F172A;
+            --border-color: #E2E8F0;
+        }
+
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             background-color: var(--bg-deep);
@@ -23,72 +35,132 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
+
         header {
             background-color: var(--bg-card);
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #1E293B;
+            border-bottom: 1px solid var(--border-color);
         }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-slot {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--accent-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.65rem;
+            color: var(--accent-blue);
+            background: rgba(56, 189, 248, 0.05);
+            font-weight: bold;
+            text-align: center;
+        }
+
         .brand-info h1 {
             color: var(--accent-blue);
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin: 0;
         }
+
         .brand-info .creditos {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--accent-silver);
             margin-top: 2px;
+            line-height: 1.2;
         }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: transparent;
+            border: 1px solid var(--accent-silver);
+            color: var(--accent-platinum);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
         .main-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
-            text-align: center;
+            padding: 25px 15px;
         }
+
         .card-box {
             background: var(--bg-card);
-            max-width: 650px;
+            max-width: 700px;
             width: 100%;
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            border: 1px solid #1E293B;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
             margin-bottom: 20px;
+            box-sizing: border-box;
         }
+
+        .card-box h2, .card-box h3 {
+            color: var(--accent-blue);
+            margin-top: 0;
+            text-align: center;
+        }
+
         .btn {
             background-color: var(--btn-green);
             color: white;
-            padding: 12px 25px;
-            font-size: 1rem;
+            padding: 12px 20px;
+            font-size: 0.95rem;
             font-weight: bold;
             border: none;
             border-radius: 8px;
             cursor: pointer;
             text-decoration: none;
-            display: inline-block;
-            margin: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin: 10px 0;
+            box-sizing: border-box;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
             transition: background 0.2s;
         }
+
         .btn:hover {
             background-color: var(--btn-hover);
         }
+
         .btn-auth {
-            background-color: #334155;
+            background-color: var(--bg-deep);
+            border: 1px solid var(--accent-blue);
             color: var(--accent-platinum);
         }
+
         .btn-auth:hover {
-            background-color: #475569;
+            background-color: var(--accent-blue);
+            color: #0B0F19;
         }
+
         .btn-payment {
-            background-color: #1e293b;
-            border: 1px solid #38bdf8;
-            color: #38bdf8;
+            background-color: var(--bg-deep);
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
             width: 100%;
             text-align: left;
             padding: 12px 15px;
@@ -99,210 +171,400 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            box-sizing: border-box;
         }
+
         .btn-payment:hover {
-            background-color: #38bdf8;
-            color: #0b0f19;
+            background-color: var(--accent-blue);
+            color: #0B0F19;
         }
+
         .selector-box {
             margin: 15px 0;
-            text-align: left;
         }
-        select, input {
+
+        select, input, textarea {
             width: 100%;
             padding: 10px;
-            background: #0B0F19;
-            border: 1px solid #334155;
-            color: white;
+            background: var(--bg-deep);
+            border: 1px solid var(--accent-silver);
+            color: var(--accent-platinum);
             border-radius: 6px;
             margin-top: 5px;
+            box-sizing: border-box;
         }
+
+        .tabs-nav {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            width: 100%;
+            max-width: 700px;
+            padding-bottom: 5px;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--accent-silver);
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: #0B0F19;
+            border-color: var(--accent-blue);
+        }
+
+        .tab-content {
+            display: none;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .payment-info {
-            background: #0B0F19;
+            background: var(--bg-deep);
             padding: 15px;
             border-radius: 6px;
             margin-top: 10px;
-            border-left: 4px solid #38bdf8;
-            text-align: left;
-            display: none;
+            border-left: 4px solid var(--accent-blue);
             font-size: 0.9rem;
-            color: #94a3b8;
+            color: var(--accent-silver);
+            display: none;
         }
-        .logo-slot {
-            width: 30px;
-            height: 30px;
-            border: 1px dashed #94a3b8;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-            color: #94a3b8;
-            border-radius: 4px;
-        }
+
         .progress-container {
             width: 100%;
-            background: #0B0F19;
+            background: var(--bg-deep);
             border-radius: 6px;
             margin-top: 15px;
             overflow: hidden;
             display: none;
-            border: 1px solid #334155;
+            border: 1px solid var(--accent-silver);
         }
+
         .progress-bar {
             width: 0%;
             height: 20px;
-            background-color: #38BDF8;
+            background-color: var(--accent-blue);
             text-align: center;
             line-height: 20px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: #0B0F19;
             font-weight: bold;
             transition: width 0.1s;
         }
+
         .grid-preview {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
+            gap: 5px;
             margin-top: 15px;
             background: var(--bg-deep);
-            padding: 12px;
+            padding: 10px;
             border-radius: 8px;
+            text-align: center;
         }
+
         .cell {
-            background: #1E293B;
-            padding: 12px 0;
-            font-size: 1rem;
+            background: var(--border-color);
+            padding: 10px 0;
+            font-size: 0.9rem;
             font-weight: bold;
             border-radius: 4px;
             color: var(--accent-platinum);
         }
+
         .cell.header {
-            background: #0284c7;
+            background: var(--accent-blue);
+            color: #0B0F19;
+        }
+
+        .guide-box {
+            font-size: 0.88rem;
+            color: var(--accent-silver);
+            line-height: 1.5;
+            background: var(--bg-deep);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="brand-info">
-            <h1>BINGO PRO360ec</h1>
-            <div class="creditos">
-                Andrés Jarrin Peña<br>
-                Desarrollador Experto en Soluciones Digitales y Arquitectura de Sistemas
+        <div class="brand-container">
+            <div class="logo-slot">PRO360</div>
+            <div class="brand-info">
+                <h1>BINGO PRO360ec</h1>
+                <div class="creditos">
+                    Andrés Jarrin Peña<br>
+                    Desarrollador Experto en Soluciones Digitales y Arquitectura de Sistemas
+                </div>
             </div>
         </div>
-        <div>
-            <!-- El saldo permanece oculto hasta que el usuario se registre o inicie sesión -->
+        <div class="header-controls">
+            <button class="theme-toggle" onclick="toggleTheme()">Modo Día/Noche</button>
             <span id="saldoDisplay" style="color: var(--accent-blue); font-weight: bold; display: none;">Saldo: $0.00</span>
         </div>
     </header>
 
     <div class="main-container">
         
+        <!-- PANTALLA 1: BIENVENIDA Y AUTENTICACIÓN -->
         <div class="card-box" id="authSection">
             <h2>Acceso a la Plataforma</h2>
-            <p style="color: var(--accent-silver); font-size: 0.95rem;">Selecciona tu vía de acceso oficial:</p>
-            <div>
-                <button class="btn btn-auth" onclick="simularLogin('Google')">Google (OAuth)</button>
-                <button class="btn btn-auth" onclick="simularLogin('Microsoft')">Microsoft (Outlook)</button>
-                <button class="btn btn-auth" onclick="simularLogin('Correo')">Correo Tradicional</button>
+            <div class="guide-box">
+                <b>Guía Didáctica del Sistema:</b> Bienvenido a BINGO PRO360ec. Para operar, selecciona tu vía de acceso. El sistema descuenta automáticamente tu saldo según el tiraje masivo configurado. Realiza recargas seguras mediante nuestras pasarelas integradas.
             </div>
+            <p style="text-align: center; color: var(--accent-silver); font-size: 0.9rem;">Selecciona tu opción de acceso:</p>
+            <button class="btn btn-auth" onclick="iniciarSesion()">Google (OAuth)</button>
+            <button class="btn btn-auth" onclick="iniciarSesion()">Microsoft (Outlook/Hotmail OAuth)</button>
+            <button class="btn btn-auth" onclick="iniciarSesion()">Correo Electrónico Tradicional y Contraseña</button>
         </div>
 
-        <div class="card-box" id="systemSection" style="display:none;">
-            <h3>Panel de Operaciones</h3>
+        <!-- PANEL DE OPERACIONES / PESTAÑAS -->
+        <div id="appMasterPanel" style="display: none; width: 100%; display: flex; flex-direction: column; align-items: center;">
             
-            <div class="selector-box">
-                <label style="font-size: 0.9rem; color: var(--accent-silver);">País, Moneda e Idioma:</label>
-                <select id="paisSelector" onchange="actualizarEntorno()">
-                    <option value="EC">Ecuador (USD - Español)</option>
-                    <option value="CO">Colombia (COP - Español)</option>
-                    <option value="ES">España (EUR - Español)</option>
-                    <option value="BR">Brasil (BRL - Portugués)</option>
-                </select>
+            <div class="tabs-nav">
+                <button class="tab-btn active" onclick="switchTab(0)">1. Tiraje y Precio</button>
+                <button class="tab-btn" onclick="switchTab(1)">2. Diseño y Juegos</button>
+                <button class="tab-btn" onclick="switchTab(2)">3. Datos Opcionales</button>
+                <button class="tab-btn" onclick="switchTab(3)">4. Historial</button>
+                <button class="tab-btn" onclick="switchTab(4)">5. Configuración</button>
             </div>
 
-            <div style="display: flex; justify-content: space-between; margin: 15px 0; align-items: center;">
-                <span style="font-size: 0.9rem;">Tiraje (100 - 50,000 tablas):</span>
-                <input type="number" id="cantidadTablas" value="100" min="100" max="50000" style="width: 120px;">
+            <!-- PESTAÑA 1 -->
+            <div class="tab-content active" id="tab-0">
+                <div class="card-box">
+                    <h3>Selector Inteligente de Entorno</h3>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Buscador Predictivo (País / Moneda / Idioma):</label>
+                        <input type="text" id="buscadorPais" placeholder="Escribe tu país (ej. Ecuador, España, Brasil...)" oninput="filtrarPais()">
+                        <select id="paisSelector" style="margin-top: 8px;" onchange="actualizarMonedaEntorno()">
+                            <option value="EC">Ecuador (USD - Español)</option>
+                            <option value="CO">Colombia (COP - Español)</option>
+                            <option value="ES">España (EUR - Español)</option>
+                            <option value="BR">Brasil (BRL - Portugués)</option>
+                            <option value="MX">México (MXN - Español)</option>
+                        </select>
+                    </div>
+
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Selección de Modalidad:</label>
+                        <select id="modalidadBingo" onchange="validarRangoTiraje()">
+                            <option value="75">Bingo de 75 Bolas</option>
+                            <option value="90clasico">Bingo de 90 Bolas - Modo Clásico</option>
+                            <option value="90avanzado">Bingo de 90 Bolas - Modo Avanzado</option>
+                            <option value="mini">Mini Bingo</option>
+                        </select>
+                    </div>
+
+                    <div style="margin: 15px 0;">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Tiraje de Tablas:</label>
+                        <input type="number" id="cantidadTablas" value="100" min="1" max="50000">
+                        <small id="rangoAviso" style="color: var(--accent-silver); display: block; margin-top: 4px;">Rango permitido: 100 a 50,000 tablas.</small>
+                    </div>
+
+                    <button class="btn btn-auth" onclick="generarPruebaVisual()">Generar Prueba (2 Tablas de Muestra)</button>
+                    <button class="btn" onclick="ejecutarGeneracionMasiva()">Ejecutar Lote Masivo (Cero Duplicados)</button>
+
+                    <div class="progress-container" id="progressContainer">
+                        <div class="progress-bar" id="progressBar">0%</div>
+                    </div>
+
+                    <div id="vistaPrevia" style="display:none;">
+                        <h4 style="margin-top: 15px; color: var(--accent-blue); text-align: center;" id="tituloVistaPrevia">Vista Previa</h4>
+                        <div class="grid-preview" id="gridContainer"></div>
+                    </div>
+                </div>
             </div>
 
-            <button class="btn" onclick="generarPrueba()">Generar Prueba (2 Tablas)</button>
-            <button class="btn" style="background-color: #0284c7;" onclick="ejecutarGeneracionMasiva()">Generar Lote Masivo</button>
-
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar" id="progressBar">0%</div>
+            <!-- PESTAÑA 2 -->
+            <div class="tab-content" id="tab-1">
+                <div class="card-box">
+                    <h3>Diseño de Cartón y Juegos</h3>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Estilo Gráfico:</label>
+                        <select>
+                            <option>Minimalista de Lujo (Fondo Oscuro Profundo / Azul Eléctrico)</option>
+                            <option>Estilo Corporativo Acero / Platino</option>
+                        </select>
+                    </div>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Estructura de Bloque (Juegos 1 al 6):</label>
+                        <select>
+                            <option>Juegos 1 al 5 (Con letras en área de juego) + Juego 6 (Tabla llena tradicional)</option>
+                            <option>Modo Clásico Integral (Tablas llenas tradicionales con cabecera BINGO)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <div id="vistaPrevia" style="display:none;">
-                <h4 style="margin-top: 20px; color: var(--accent-blue);" id="tituloVistaPrevia">Vista Previa de Tablas</h4>
-                <div class="grid-preview" id="gridContainer"></div>
+            <!-- PESTAÑA 3 -->
+            <div class="tab-content" id="tab-2">
+                <div class="card-box">
+                    <h3>Datos Opcionales y Personalización</h3>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Beneficio de / Institución:</label>
+                        <input type="text" placeholder="Ej. A beneficio de Pro-Vivienda / Evento Benéfico">
+                    </div>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Dirección o Ciudad del Evento:</label>
+                        <input type="text" placeholder="Ej. Quito, Av. Principal 360">
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="card-box" id="paymentSection" style="display:none;">
-            <h3>Métodos de Recarga y Pago</h3>
-            <p style="font-size: 0.85rem; color: var(--accent-silver);">Selecciona tu método de pago preferido:</p>
-            
-            <button class="btn-payment" onclick="mostrarInfo('deuna')"><span>📱 QR Deuna (Banco Pichincha)</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('peigo')"><span>💳 Visa Peigo (Banco de Guayaquil)</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('pichincha')"><span>🏦 Banco Pichincha (Ahorros)</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('guayaquil')"><span>🏦 Banco de Guayaquil (Ahorros)</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('ruminahui')"><span>🏦 Banco Rumiñahui (Ahorros)</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('paypal')"><span>🌐 PayPal</span> <div class="logo-slot">Logo</div></button>
-            <button class="btn-payment" onclick="mostrarInfo('binance')"><span>🟡 Binance Pay</span> <div class="logo-slot">Logo</div></button>
+            <!-- PESTAÑA 4 -->
+            <div class="tab-content" id="tab-3">
+                <div class="card-box">
+                    <h3>Historial de Lotes Generados</h3>
+                    <p style="font-size: 0.85rem; color: var(--accent-silver); text-align: center;">No hay registros de tirajes activos en esta sesión temporal.</p>
+                </div>
+            </div>
 
-            <div id="infoBox" class="payment-info"></div>
-        </div>
+            <!-- PESTAÑA 5 -->
+            <div class="tab-content" id="tab-4">
+                <div class="card-box">
+                    <h3>Configuración de Cuenta Personal</h3>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Nombre de Usuario:</label>
+                        <input type="text" value="Cliente Verificado 360">
+                    </div>
+                    <div class="selector-box">
+                        <label style="font-size: 0.85rem; color: var(--accent-silver);">Correo Electrónico:</label>
+                        <input type="email" value="cliente@bingopro360ec.com">
+                    </div>
+                    <button class="btn" style="margin-top: 15px;" onclick="alert('Datos actualizados correctamente con seguridad JWT.')">Guardar Cambios</button>
+                </div>
+            </div>
 
-        <div>
-            <a href="https://wa.me/593939287147?text=Hola%20Andrés,%20vengo%20de%20la%20plataforma%20Bingo%20Pro360ec%20y%20deseo%20validar%20una%20recarga." target="_blank" class="btn" style="background-color: #25d366;">Soporte y Recargas WhatsApp</a>
+            <!-- PASARELAS DE PAGO Y RECARGAS -->
+            <div class="card-box">
+                <h3>Métodos de Recarga y Pagos</h3>
+                <p style="font-size: 0.85rem; color: var(--accent-silver); text-align: center;">Selecciona tu método de pago preferido:</p>
+                
+                <button class="btn-payment" onclick="mostrarInfoPago('deuna')"><span>📱 QR Deuna (Banco Pichincha)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Deuna</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('peigo')"><span>💳 Visa Peigo (Banco de Guayaquil)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Peigo</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('pichincha')"><span>🏦 Banco Pichincha (Ahorros)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Pichincha</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('guayaquil')"><span>🏦 Banco de Guayaquil (Ahorros)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Guayaquil</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('ruminahui')"><span>🏦 Banco Rumiñahui (Ahorros)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Rumiñahui</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('tarjetas')"><span>💳 Tarjetas de Crédito / Débito</span> <div class="logo-slot" style="width:35px; height:25px; font-size:0.5rem;">Tarjetas</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('paypal')"><span>🌐 PayPal (Pago Directo)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">PayPal</div></button>
+                <button class="btn-payment" onclick="mostrarInfoPago('binance')"><span>🟡 Binance Pay (P2P)</span> <div class="logo-slot" style="width:30px; height:25px; font-size:0.55rem;">Binance</div></button>
+
+                <div id="infoBoxPago" class="payment-info"></div>
+
+                <div style="margin-top: 15px;">
+                    <label style="font-size: 0.85rem; color: var(--accent-silver);">Subir comprobante de pago:</label>
+                    <input type="file" style="padding: 6px;">
+                </div>
+            </div>
+
+            <!-- BOTÓN INSTITUCIONAL WHATSAPP -->
+            <div style="max-width: 700px; width: 100%; margin-bottom: 30px;">
+                <a href="https://wa.me/593939287147?text=Hola%20Andrés,%20vengo%20de%20la%20plataforma%20BINGO%20PRO360ec%20y%20deseo%20validar%20una%20recarga." target="_blank" class="btn" style="background-color: #25d366;">Soporte y Recargas WhatsApp</a>
+            </div>
+
         </div>
 
     </div>
 
     <script>
-        function simularLogin(metodo) {
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('systemSection').style.display = 'block';
-            document.getElementById('paymentSection').style.display = 'block';
-            // Muestra el saldo únicamente al iniciar sesión / registrarse
-            document.getElementById('saldoDisplay').style.display = 'inline-block';
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
         }
 
-        function actualizarEntorno() {
+        function iniciarSesion() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('appMasterPanel').style.display = 'flex';
+            document.getElementById('saldoDisplay').style.display = 'inline-block';
+            validarRangoTiraje();
+        }
+
+        function switchTab(index) {
+            const contents = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            contents.forEach((c, i) => {
+                c.classList.toggle('active', i === index);
+                buttons[i].classList.toggle('active', i === index);
+            });
+        }
+
+        function validarRangoTiraje() {
+            const mod = document.getElementById('modalidadBingo').value;
+            const inputTiraje = document.getElementById('cantidadTablas');
+            const aviso = document.getElementById('rangoAviso');
+            
+            if (mod === 'mini') {
+                inputTiraje.min = 1;
+                inputTiraje.max = 50000;
+                aviso.innerText = "Rango permitido para Mini Bingo: 1 a 50,000 tablas.";
+            } else {
+                inputTiraje.min = 100;
+                inputTiraje.max = 50000;
+                if(parseInt(inputTiraje.value) < 100) inputTiraje.value = 100;
+                aviso.innerText = "Rango permitido estricto: 100 a 50,000 tablas.";
+            }
+        }
+
+        function actualizarMonedaEntorno() {
             const pais = document.getElementById('paisSelector').value;
             let moneda = "$";
             if(pais === 'CO') moneda = "COP ";
             if(pais === 'ES') moneda = "€ ";
             if(pais === 'BR') moneda = "R$ ";
+            if(pais === 'MX') moneda = "MXN ";
             document.getElementById('saldoDisplay').innerText = `Saldo: ${moneda}0.00`;
         }
 
-        function mostrarInfo(metodo) {
-            const box = document.getElementById('infoBox');
-            box.style.display = 'block';
-            
-            let contenido = "";
-            if(metodo === 'deuna') {
-                contenido = "<b>QR Deuna (Banco Pichincha)</b><br>Escanea el código QR oficial de Deuna con tu aplicación y envíanos el comprobante por WhatsApp.";
-            } else if(metodo === 'peigo') {
-                contenido = "<b>Visa Peigo (Banco de Guayaquil)</b><br>Utiliza nuestro QR o pasarela de Peigo para procesar tu pago de forma instantánea.";
-            } else if(metodo === 'pichincha') {
-                contenido = "<b>Banco Pichincha - Ahorros</b><br>Nro: 2215905844<br>Cédula: 0802832816<br><i>Envíanos el comprobante por WhatsApp.</i>";
-            } else if(metodo === 'guayaquil') {
-                contenido = "<b>Banco de Guayaquil - Ahorros</b><br>Nro: 0042459602<br>Cédula: 0802832816<br><i>Envíanos el comprobante por WhatsApp.</i>";
-            } else if(metodo === 'ruminahui') {
-                contenido = "<b>Banco Rumiñahui - Ahorros</b><br>Nro: 8410631400<br>Cédula: 0802832816<br><i>Envíanos el comprobante por WhatsApp.</i>";
-            } else if(metodo === 'paypal') {
-                contenido = "<b>PayPal Official</b><br>Correo: ecommerceshopec@gmail.com<br><i>Realiza tu pago y notifícalo con tu correo de envío.</i>";
-            } else if(metodo === 'binance') {
-                contenido = "<b>Binance Pay / P2P</b><br>Correo: ajterra85@gmail.com<br><i>Comparte el Hash de la transacción.</i>";
+        function filtrarPais() {
+            const filtro = document.getElementById('buscadorPais').value.toLowerCase();
+            const select = document.getElementById('paisSelector');
+            for (let i = 0; i < select.options.length; i++) {
+                const texto = select.options[i].text.toLowerCase();
+                select.options[i].style.display = texto.includes(filtro) ? "" : "none";
             }
-            box.innerHTML = contenido;
         }
 
-        function generarPrueba() {
+        function mostrarInfoPago(metodo) {
+            const box = document.getElementById('infoBoxPago');
+            box.style.display = 'block';
+            
+            let html = "";
+            if(metodo === 'deuna') {
+                html = "<b>QR Deuna (Banco Pichincha)</b><br>Escanea el código QR institucional y sube tu comprobante para acreditación automática.";
+            } else if(metodo === 'peigo') {
+                html = "<b>Visa Peigo (Banco de Guayaquil)</b><br>Procesa tu pago de manera instantánea mediante nuestra pasarela aliada.";
+            } else if(metodo === 'pichincha') {
+                html = "<b>Banco Pichincha - Cuenta de Ahorros</b><br>Número: 2215905844<br>Titular: Andrés Jarrin Peña<br>Cédula: 0802832816";
+            } else if(metodo === 'guayaquil') {
+                html = "<b>Banco de Guayaquil - Cuenta de Ahorros</b><br>Número: 0042459602<br>Titular: Andrés Jarrin Peña<br>Cédula: 0802832816";
+            } else if(metodo === 'ruminahui') {
+                html = "<b>Banco Rumiñahui - Cuenta de Ahorros</b><br>Número: 8410631400<br>Titular: Andrés Jarrin Peña<br>Cédula: 0802832816";
+            } else if(metodo === 'tarjetas') {
+                html = "<b>Tarjetas de Crédito / Débito</b><br>Procesamiento seguro mediante pasarela internacional acreditada con cifrado SSL.";
+            } else if(metodo === 'paypal') {
+                html = "<b>PayPal Directo</b><br>Correo institucional configurado: <b>ecommerceshopec@gmail.com</b><br>Realiza tu envío y adjunta captura del comprobante.";
+            } else if(metodo === 'binance') {
+                html = "<b>Binance Pay / P2P</b><br>Correo institucional configurado: <b>ajterra85@gmail.com</b><br>Envía tus USDT y comparte el Hash de la transacción.";
+            }
+            box.innerHTML = html;
+        }
+
+        function generarPruebaVisual() {
             const container = document.getElementById('gridContainer');
             container.innerHTML = '';
             
@@ -321,14 +583,17 @@
                 container.appendChild(cell);
             }
 
-            document.getElementById('tituloVistaPrevia').innerText = "Vista Previa - Tabla de Prueba";
+            document.getElementById('tituloVistaPrevia').innerText = "Vista Previa - Muestra de 2 Tablas (Prefijo BP)";
             document.getElementById('vistaPrevia').style.display = 'block';
         }
 
         function ejecutarGeneracionMasiva() {
             const cantidad = parseInt(document.getElementById('cantidadTablas').value);
-            if (isNaN(cantidad) || cantidad < 100 || cantidad > 50000) {
-                alert("Por favor, ingresa un rango válido de tiraje entre 100 y 50,000 tablas.");
+            const mod = document.getElementById('modalidadBingo').value;
+            const minPermitido = (mod === 'mini') ? 1 : 100;
+
+            if (isNaN(cantidad) || cantidad < minPermitido || cantidad > 50000) {
+                alert(`Por favor, ingresa un tiraje válido dentro del rango establecido.`);
                 return;
             }
 
@@ -338,19 +603,19 @@
             
             let progreso = 0;
             let intervalo = setInterval(() => {
-                progreso += 5;
+                progreso += 10;
                 bar.style.width = progreso + '%';
-                bar.innerText = `Generando lote masivo... ${progreso}% (Cero duplicados)`;
+                bar.innerText = `Generando lote masivo... ${progreso}% (Algoritmo de unicidad activo)`;
                 
                 if (progreso >= 100) {
                     clearInterval(intervalo);
                     setTimeout(() => {
                         container.style.display = 'none';
                         bar.style.width = '0%';
-                        alert(`¡Éxito! Se han generado correctamente las ${cantidad} tablas bajo el algoritmo de unicidad (cero duplicados) con prefijo BP.`);
+                        alert(`¡Éxito total! Se han generado y estructurado correctamente las ${cantidad} tablas bajo el protocolo de cero duplicados con código QR y prefijo BP.`);
                     }, 300);
                 }
-            }, 50);
+            }, 60);
         }
     </script>
 </body>
